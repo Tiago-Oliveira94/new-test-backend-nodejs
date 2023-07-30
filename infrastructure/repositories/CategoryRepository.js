@@ -7,20 +7,37 @@ class CategoryRepository {
     }
 
     async create(category) {
-        await this.schema.create(category, function (err, value) {
+        try {
+            const result = await this.schema.create(category)
+            console.log(`Category ${result} succesfully created!`)
+            return result
+        } catch (err) {
             if (err) throw new GenericMongoError('Failure on create category in mongo')
-            console.log(`Category ${value} created succesfully!`)
-        })
+        }
     }
 
-    async update(category, ownerID, product) {
-        await this.schema.updateOne({ category, ownerID }, { products: [product] }, function (err) {
-            if (err) {
-                console.log(err)
-                throw new GenericMongoError('Failure on update category in mongo')
-            }
-            console.log("Category updated succesfully!")
-        })
+    async update(values) {
+        const { categoryID, title, description } = values
+
+        try {
+            const result = await this.schema.updateOne({ _id: categoryID }, { title, description })
+            console.log(`Category ${title} succesfully updated!`)
+            return result
+        } catch (err) {
+            console.log(err)
+            throw new GenericMongoError('Failure on find category in mongo')
+        }
+    }
+
+    async delete(categoryID) {
+        try {
+            const result = await this.schema.deleteOne({ _id: categoryID })
+            console.log(`Category ${categoryID} succesfully deleted!`)
+            return result
+        } catch (err) {
+            console.log(err)
+            throw new GenericMongoError('Failure on delete category in mongo')
+        }
     }
 
     async findByProperty(params) {

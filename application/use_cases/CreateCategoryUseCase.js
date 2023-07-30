@@ -11,12 +11,13 @@ class CreateCategoryUseCase {
         if (error) {
             throw new BadRequestError(error)
         }
+
         const { title, ownerID } = value
-        return this.categoryRepository.findByProperty({ title, ownerID }).then((categoryWithTitle) => {
+        return this.categoryRepository.findByProperty({ title, ownerID }).then(async (categoryWithTitle) => {
             if (categoryWithTitle.length) {
-                throw new AlreadyExistsError(`category with title ${title} already exist for ${ownerID}!`)
+                throw new AlreadyExistsError(`category with title ${title} already exist for owner ${ownerID}!`)
             }
-            return this.categoryRepository.create(value)
+            else await this.categoryRepository.create(value)
         })
     }
 }

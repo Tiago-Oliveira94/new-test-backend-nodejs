@@ -7,12 +7,48 @@ class ProductRepository {
     }
 
     async create(product) {
-        const result = await this.schema.create(product, function (err, value) {
+        try {
+            const result = await this.schema.create(product)
+            console.log(`Product ${result} succesfully created!`)
+            return result
+        } catch (err) {
             if (err) throw new GenericMongoError('Failure on create product in mongo')
-            console.log(`Product ${value} created succesfully!`)
-        })
+        }
+    }
 
-        return result
+    async update(values) {
+        const { productID, title, price, description } = values
+
+        try {
+            const result = await this.schema.updateOne({ _id: productID }, { title, description, price })
+            console.log(`Product ${title} succesfully updated!`)
+            return result
+        } catch (err) {
+            console.log(err)
+            throw new GenericMongoError('Failure on update product in mongo')
+        }
+    }
+
+    async delete(productID) {
+        try {
+            const result = await this.schema.deleteOne({ _id: productID })
+            console.log(`Product ${productID} succesfully deleted!`)
+            return result
+        } catch (err) {
+            console.log(err)
+            throw new GenericMongoError('Failure on delete product in mongo')
+        }
+    }
+
+    async deleteMany(productIds) {
+        try {
+            const result = await this.schema.deleteMany({ _id: { $in: productIds } })
+            console.log('Products Deleted succesfully!')
+            return result
+        } catch (err) {
+            console.log(err)
+            throw new GenericMongoError('Failure on delete products in mongo')
+        }
     }
 
     async findByProperty(params) {

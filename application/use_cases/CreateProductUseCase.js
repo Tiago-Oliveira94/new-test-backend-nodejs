@@ -14,7 +14,7 @@ class CreateProductUseCase {
         }
 
         const { title, ownerID, category } = value
-        const validCategory = await this.categoryRepository.findByProperty({ _id: category })
+        const validCategory = await this.categoryRepository.findByProperty({ _id: category, ownerID })
 
         if (validCategory.length) {
             return this.productRepository.findByProperty({ title, ownerID }).then(async (productWithTitle) => {
