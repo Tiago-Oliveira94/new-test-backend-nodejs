@@ -2,13 +2,10 @@ const ProductSchema = require('../database/mongodb/schemas/Product')
 const { GenericMongoError } = require("../../infrastructure/webserver/errors")
 
 class ProductRepository {
-    constructor() {
-        this.schema = ProductSchema
-    }
 
     async create(product) {
         try {
-            const result = await this.schema.create(product)
+            const result = await ProductSchema.create(product)
             console.log(`Product ${result} succesfully created!`)
             return result
         } catch (err) {
@@ -20,7 +17,7 @@ class ProductRepository {
         const { productID, title, price, description } = values
 
         try {
-            const result = await this.schema.updateOne({ _id: productID }, { title, description, price })
+            const result = await ProductSchema.updateOne({ _id: productID }, { title, description, price })
             console.log(`Product ${title} succesfully updated!`)
             return result
         } catch (err) {
@@ -31,7 +28,7 @@ class ProductRepository {
 
     async delete(productID) {
         try {
-            const result = await this.schema.deleteOne({ _id: productID })
+            const result = await ProductSchema.deleteOne({ _id: productID })
             console.log(`Product ${productID} succesfully deleted!`)
             return result
         } catch (err) {
@@ -42,7 +39,7 @@ class ProductRepository {
 
     async deleteMany(productIds) {
         try {
-            const result = await this.schema.deleteMany({ _id: { $in: productIds } })
+            const result = await ProductSchema.deleteMany({ _id: { $in: productIds } })
             console.log('Products Deleted succesfully!')
             return result
         } catch (err) {
@@ -53,7 +50,7 @@ class ProductRepository {
 
     async findByProperty(params) {
         try {
-            return await this.schema.find(params)
+            return await ProductSchema.find(params)
                 .skip(params.perPage * params.page - params.perPage)
                 .limit(params.perPage);
 

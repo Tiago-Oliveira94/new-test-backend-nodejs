@@ -2,7 +2,7 @@ const { NotFoundError, BadRequestError } = require('../../infrastructure/webserv
 const categoryJoiSchema = require('../validation/categoryJoiSchema')
 
 class UpdateCategoryUseCase {
-    constructor(categoryRepository) {
+    constructor({ categoryRepository }) {
         this.categoryRepository = categoryRepository
     }
 

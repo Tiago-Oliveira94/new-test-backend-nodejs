@@ -2,7 +2,7 @@ const { BadRequestError, AlreadyExistsError } = require('../../infrastructure/we
 const productJoiSchema = require('../validation/productJoiSchema')
 
 class CreateProductUseCase {
-    constructor(productRepository, categoryRepository) {
+    constructor({ productRepository, categoryRepository }) {
         this.productRepository = productRepository
         this.categoryRepository = categoryRepository
     }

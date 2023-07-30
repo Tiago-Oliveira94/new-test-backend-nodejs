@@ -1,14 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const CategoryController = require('../../adapters/http/controllers/CategoryController');
-const ProductController = require('../../adapters/http/controllers/ProductController');
+const { categoryController, productController } = require('../../application/composers/Controllers');
 
-router.post('/category', CategoryController().createCategory)
-router.put('/category/:id', CategoryController().updateCategory)
-router.delete('/category/:id', CategoryController().deleteCategory)
+router.post('/category', categoryController.createCategory)
+router.put('/category/:id', categoryController.updateCategory)
+router.delete('/category/:id', categoryController.deleteCategory)
 
-router.post('/product', ProductController().createProduct)
-router.put('/product/:id', ProductController().updateProduct)
-router.delete('/product/:id', ProductController().deleteProduct)
+router.post('/product', productController.createProduct)
+router.put('/product/:id', productController.updateProduct)
+router.delete('/product/:id', productController.deleteProduct)
 
 module.exports = router;

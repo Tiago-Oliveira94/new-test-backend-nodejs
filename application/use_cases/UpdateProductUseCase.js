@@ -2,7 +2,7 @@ const { BadRequestError } = require('../../infrastructure/webserver/errors')
 const productJoiSchema = require('../validation/productJoiSchema')
 
 class UpdateProductUseCase {
-    constructor(productRepository, categoryRepository) {
+    constructor({ productRepository, categoryRepository }) {
         this.productRepository = productRepository
         this.categoryRepository = categoryRepository
     }

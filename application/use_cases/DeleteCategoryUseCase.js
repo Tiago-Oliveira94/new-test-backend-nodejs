@@ -2,7 +2,7 @@ const { GenericMongoError, NotFoundError } = require('../../infrastructure/webse
 const productJoiSchema = require('../validation/productJoiSchema')
 
 class DeleteCategoryUseCase {
-    constructor(categoryRepository, productRepository) {
+    constructor({ categoryRepository, productRepository }) {
         this.categoryRepository = categoryRepository
         this.productRepository = productRepository
     }

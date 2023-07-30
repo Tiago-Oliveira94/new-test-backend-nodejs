@@ -2,13 +2,9 @@ const CategorySchema = require('../database/mongodb/schemas/Category')
 const { GenericMongoError } = require("../../infrastructure/webserver/errors")
 
 class CategoryRepository {
-    constructor() {
-        this.schema = CategorySchema
-    }
-
     async create(category) {
         try {
-            const result = await this.schema.create(category)
+            const result = await CategorySchema.create(category)
             console.log(`Category ${result} succesfully created!`)
             return result
         } catch (err) {
@@ -20,7 +16,7 @@ class CategoryRepository {
         const { categoryID, title, description } = values
 
         try {
-            const result = await this.schema.updateOne({ _id: categoryID }, { title, description })
+            const result = await CategorySchema.updateOne({ _id: categoryID }, { title, description })
             console.log(`Category ${title} succesfully updated!`)
             return result
         } catch (err) {
@@ -31,7 +27,7 @@ class CategoryRepository {
 
     async delete(categoryID) {
         try {
-            const result = await this.schema.deleteOne({ _id: categoryID })
+            const result = await CategorySchema.deleteOne({ _id: categoryID })
             console.log(`Category ${categoryID} succesfully deleted!`)
             return result
         } catch (err) {
@@ -42,7 +38,7 @@ class CategoryRepository {
 
     async findByProperty(params) {
         try {
-            return await this.schema.find(params)
+            return await CategorySchema.find(params)
                 .skip(params.perPage * params.page - params.perPage)
                 .limit(params.perPage);
 
