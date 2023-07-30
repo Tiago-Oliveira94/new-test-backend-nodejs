@@ -8,6 +8,7 @@ const app = express();
 
 connectDb();
 const port = process.env.NODE_LOCAL_PORT || 9000;
+const host = process.env.NODE_HOST || 'localhost'
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -18,6 +19,6 @@ app.get('/', (req, res) => {
 
 app.use('/', routes)
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+app.listen(port, host, () => {
+  console.log(`Server is running on ${host}:${port}`);
 });

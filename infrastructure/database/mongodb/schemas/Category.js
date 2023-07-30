@@ -7,8 +7,8 @@ const categorySchema = new Schema(
             type: String,
             required: true,
         },
-        owner: {
-            type: { type: mongoose.Types.ObjectId, ref: "Owner" },
+        ownerID: {
+            type: String,
             required: true,
         },
         description: {

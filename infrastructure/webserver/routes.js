@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const OwnerController = require('../../adapters/http/controllers/OwnerController');
+const CategoryController = require('../../adapters/http/controllers/CategoryController');
+const ProductController = require('../../adapters/http/controllers/ProductController');
 
-router.post('/owner', OwnerController().createOwner)
+router.post('/category', CategoryController().createCategory)
+router.post('/product', ProductController().createProduct)
 
 module.exports = router;

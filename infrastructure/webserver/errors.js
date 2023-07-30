@@ -9,11 +9,22 @@ function NotFoundError(description) {
 NotFoundError.prototype = Object.create(Error.prototype)
 NotFoundError.prototype.constructor = NotFoundError
 
+function BadRequestError(description) {
+    Error.call(this)
+    Error.captureStackTrace(this)
+    this.name = 'BAD_REQUEST_ERROR'
+    this.statusCode = 400
+    this.description = description
+    this.isOperational = true
+}
+BadRequestError.prototype = Object.create(Error.prototype)
+BadRequestError.prototype.constructor = BadRequestError
+
 function AlreadyExistsError(description) {
     Error.call(this)
     Error.captureStackTrace(this)
     this.name = 'ALREADY_EXISTS'
-    this.statusCode = 409
+    this.statusCode = 400
     this.description = description
     this.isOperational = true
 }
@@ -31,8 +42,21 @@ function CannotBeEmptyError(description) {
 CannotBeEmptyError.prototype = Object.create(Error.prototype)
 CannotBeEmptyError.prototype.constructor = CannotBeEmptyError
 
+function GenericMongoError(description) {
+    Error.call(this)
+    Error.captureStackTrace(this)
+    this.name = 'GENERIC_MONGO_ERROR'
+    this.statusCode = 500
+    this.description = description
+    this.isOperational = true
+}
+GenericMongoError.prototype = Object.create(Error.prototype)
+GenericMongoError.prototype.constructor = GenericMongoError
+
 module.exports = {
     NotFoundError,
     AlreadyExistsError,
-    CannotBeEmptyError
+    CannotBeEmptyError,
+    GenericMongoError,
+    BadRequestError
 }
