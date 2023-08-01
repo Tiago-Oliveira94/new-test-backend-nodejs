@@ -70,8 +70,8 @@ describe('CategoryContoller: ', () => {
     describe('update', () => {
         const params = { id: 1 }
         const body = {
-            title: 'any_title',
-            description: 'any_description'
+            title: 'title for test',
+            description: 'description for test'
         }
 
         beforeAll(() => {
