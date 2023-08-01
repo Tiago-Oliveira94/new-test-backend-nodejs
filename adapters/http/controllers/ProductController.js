@@ -6,7 +6,7 @@ class ProductController {
     }
 
     createProduct = async (req, res) => {
-        await this.createProductUsecase.execute(req.body).then((product) => res.status(201).json(product)).catch((error) => {
+        await this.createProductUsecase.execute(req.body).then(() => res.status(201).json({ message: 'Product successfully created!' })).catch((error) => {
             if (error.statusCode) {
                 res.status(error.statusCode).json({
                     message: error.description
@@ -19,7 +19,7 @@ class ProductController {
     updateProduct = async (req, res) => {
         const productID = req.params.id
 
-        await this.updateProductUsecase.execute(productID, { ...req.body }).then((product) => res.status(200).json(product)).catch((error) => {
+        await this.updateProductUsecase.execute(productID, { ...req.body }).then(() => res.status(200).json({ message: 'Product successfully updated!' })).catch((error) => {
             if (error.statusCode) {
                 res.status(error.statusCode).json({
                     message: error.description
@@ -32,7 +32,7 @@ class ProductController {
     deleteProduct = async (req, res) => {
         const productID = req.params.id
 
-        await this.deleteProductUsecase.execute(productID).then((product) => res.status(200).json(product)).catch((error) => {
+        await this.deleteProductUsecase.execute(productID).then(() => res.status(200).json({ message: 'Product successfully deleted!' })).catch((error) => {
             if (error.statusCode) {
                 res.status(error.statusCode).json({
                     message: error.description

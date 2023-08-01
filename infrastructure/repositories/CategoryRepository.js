@@ -8,6 +8,7 @@ class CategoryRepository {
             console.log(`Category ${result} succesfully created!`)
             return result
         } catch (err) {
+            console.log(err)
             if (err) throw new GenericMongoError('Failure on create category in mongo')
         }
     }

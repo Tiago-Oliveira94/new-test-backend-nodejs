@@ -2,8 +2,9 @@ const { NotFoundError, BadRequestError } = require('../../infrastructure/webserv
 const categoryJoiSchema = require('../validation/categoryJoiSchema')
 
 class UpdateCategoryUseCase {
-    constructor({ categoryRepository }) {
+    constructor({ categoryRepository, sqsProducer }) {
         this.categoryRepository = categoryRepository
+        this.sqsProducer = sqsProducer
     }
 
     async execute(categoryID, category) {
@@ -12,14 +13,20 @@ class UpdateCategoryUseCase {
             throw new BadRequestError(error)
         }
 
-        const { title, description } = category
+        const { title, description, ownerID } = category
 
-        const validCategory = await this.categoryRepository.findByProperty({ _id: categoryID })
+        const validCategory = await this.categoryRepository.findByProperty({ _id: categoryID, ownerID: ownerID })
 
         if (validCategory.length) {
-            await this.categoryRepository.update({ categoryID, title, description })
+            const result = await this.categoryRepository.update({ categoryID, title, description }).then(async () => {
+                await this.sqsProducer.sendMessage(ownerID)
+            })
+
+            return result
         }
-        else throw new NotFoundError(`category with id ${categoryID} not found!`)
+        else throw new NotFoundError(`category with id ${categoryID} not found for owner ${ownerID}!`)
+
+
 
     }
 }

@@ -7,7 +7,7 @@ class CategoryController {
 
     createCategory = async (req, res) => {
 
-        await this.createCategoryUsecase.execute(req.body).then((category) => res.status(201).json(category)).catch((error) => {
+        await this.createCategoryUsecase.execute(req.body).then(() => res.status(201).json({ message: 'Category successfully created!' })).catch((error) => {
             if (error.statusCode) {
                 res.status(error.statusCode).json({
                     message: error.description
@@ -20,7 +20,7 @@ class CategoryController {
     updateCategory = async (req, res) => {
         const categoryID = req.params.id
 
-        await this.updateCategoryUsecase.execute(categoryID, { ...req.body }).then((category) => res.status(200).json(category)).catch((error) => {
+        await this.updateCategoryUsecase.execute(categoryID, { ...req.body }).then(() => res.status(200).json({ message: 'Category successfully updated!' })).catch((error) => {
             if (error.statusCode) {
                 res.status(error.statusCode).json({
                     message: error.description
@@ -33,7 +33,7 @@ class CategoryController {
     deleteCategory = async (req, res) => {
         const categoryID = req.params.id
 
-        await this.deleteCategoryUsecase.execute(categoryID).then((product) => res.status(200).json(product)).catch((error) => {
+        await this.deleteCategoryUsecase.execute(categoryID).then(() => res.status(200).json({ message: 'Category successfully deleted!' })).catch((error) => {
             if (error.statusCode) {
                 res.status(error.statusCode).json({
                     message: error.description

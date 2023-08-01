@@ -2,8 +2,9 @@ const { BadRequestError, AlreadyExistsError } = require('../../infrastructure/we
 const categoryJoiSchema = require('../validation/categoryJoiSchema')
 
 class CreateCategoryUseCase {
-    constructor({ categoryRepository }) {
+    constructor({ categoryRepository, sqsProducer }) {
         this.categoryRepository = categoryRepository
+        this.sqsProducer = sqsProducer
     }
 
     async execute(category) {
@@ -13,11 +14,15 @@ class CreateCategoryUseCase {
         }
 
         const { title, ownerID } = value
-        return this.categoryRepository.findByProperty({ title, ownerID }).then(async (categoryWithTitle) => {
+        await this.categoryRepository.findByProperty({ title, ownerID }).then(async (categoryWithTitle) => {
             if (categoryWithTitle.length) {
                 throw new AlreadyExistsError(`category with title ${title} already exist for owner ${ownerID}!`)
             }
-            else await this.categoryRepository.create(value)
+            const result = await this.categoryRepository.create(value).then((async (category) => {
+                await this.sqsProducer.sendMessage(category.ownerID)
+            }))
+
+            return result
         })
     }
 }

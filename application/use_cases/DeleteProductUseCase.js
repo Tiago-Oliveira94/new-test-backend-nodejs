@@ -2,16 +2,20 @@ const { GenericMongoError, NotFoundError } = require('../../infrastructure/webse
 const productJoiSchema = require('../validation/productJoiSchema')
 
 class DeleteProductUseCase {
-    constructor({ productRepository }) {
+    constructor({ productRepository, sqsProducer }) {
         this.productRepository = productRepository
+        this.sqsProducer = sqsProducer
     }
 
     async execute(productId) {
         try {
-            const validId = await this.productRepository.findByProperty({ productId })
+            const validProduct = await this.productRepository.findByProperty({ _id: productId })
 
-            if (validId.length) {
-                return await this.productRepository.delete(validId)
+            if (validProduct.length) {
+                const result = await this.productRepository.delete(validProduct[0]._id)
+                await this.sqsProducer.sendMessage(validProduct[0].ownerID)
+
+                return result
             }
 
         } catch (error) {

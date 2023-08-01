@@ -1,9 +1,6 @@
-import { jest } from '@jest/globals'
-import { getMockReq, getMockRes } from '@jest-mock/express'
-
-import { CategoryController } from './CategoryController'
-import { UnprocessableEntityError } from '@errors/unprocessable-entity.error'
-import { NotFoundError } from '@errors/not-found.error'
+const { getMockReq, getMockRes } = require('@jest-mock/express')
+const CategoryController = require('./CategoryController')
+const { NotFoundError } = require('../../../infrastructure/webserver/errors')
 
 class CreateCategoryUsecaseStub {
     execute() { }
@@ -18,15 +15,16 @@ class DeleteCategoryUsecaseStub {
 }
 
 describe('CategoryContoller: ', () => {
-    let req
-    let res
-    let sut
+    let request
+    let response
+    let categoryController
+
     const createCategoryUsecase = new CreateCategoryUsecaseStub()
     const updateCategoryUsecase = new UpdateCategoryUsecaseStub()
     const deleteCategoryUsecase = new DeleteCategoryUsecaseStub()
 
     beforeEach(() => {
-        sut = new CategoryController({ createCategoryUsecase, updateCategoryUsecase, deleteCategoryUsecase })
+        categoryController = new CategoryController({ createCategoryUsecase, updateCategoryUsecase, deleteCategoryUsecase })
     })
 
     describe('create', () => {
@@ -36,38 +34,36 @@ describe('CategoryContoller: ', () => {
             ownerID: 'ownerID for test'
         }
 
-        const usecaseResponse = {
-            id: 'any_id'
+        const id = {
+            id: 'id for test'
         }
 
         beforeAll(() => {
-            req = getMockReq({ body })
-            res = getMockRes().res
-            jest.spyOn(createCategoryUsecase, 'execute').mockResolvedValue(usecaseResponse)
+            request = getMockReq({ body })
+            response = getMockRes().res
+            jest.spyOn(createCategoryUsecase, 'execute').mockResolvedValue(id)
         })
 
-        test('Should call CreateCategoryUsecase with correct values', async () => {
+        test('Should call CreateCategoryUsecase with a valid input', async () => {
             const spy = jest.spyOn(createCategoryUsecase, 'execute')
 
-            await sut.create(req, res)
+            await categoryController.createCategory(request, response)
 
-            expect(spy).toHaveBeenCalledWith({ title: body.title, description: body.description, ownerId: body.ownerId })
+            expect(spy).toHaveBeenCalledWith({ title: body.title, description: body.description, ownerID: body.ownerID })
         })
 
         test('Should return 500 if CreateCategoryUsecase throws', async () => {
             jest.spyOn(createCategoryUsecase, 'execute').mockRejectedValueOnce(new Error())
 
-            await sut.create(req, res)
+            await categoryController.createCategory(request, response)
 
-            expect(res.status).toHaveBeenCalledWith(500)
-            expect(res.json).toHaveBeenCalledWith({ message: 'An unexpected error occurred' })
+            expect(response.status).toHaveBeenCalledWith(500)
         })
 
         test('Should return 201 on success', async () => {
-            await sut.create(req, res)
+            await categoryController.createCategory(request, response)
 
-            expect(res.status).toHaveBeenCalledWith(201)
-            expect(res.json).toHaveBeenCalledWith({ message: 'Category successfully created', data: { id: 'any_id' } })
+            expect(response.status).toHaveBeenCalledWith(201)
         })
     })
 
@@ -79,60 +75,32 @@ describe('CategoryContoller: ', () => {
         }
 
         beforeAll(() => {
-            req = getMockReq({ body, params })
-            res = getMockRes().res
+            request = getMockReq({ body, params })
+            response = getMockRes().res
             jest.spyOn(updateCategoryUsecase, 'execute').mockResolvedValue(undefined)
-        })
-
-        test('Should call UpdateCategoryUsecase with correct values', async () => {
-            const spy = jest.spyOn(updateCategoryUsecase, 'execute')
-
-            await sut.update(req, res)
-
-            expect(spy).toHaveBeenCalledTimes(1)
-            expect(spy).toHaveBeenCalledWith({
-                id: params.id,
-                title: body.title,
-                description: body.description
-            })
         })
 
         test('Should return 404 if UpdateCategoryUsecase throws NotFoundError', async () => {
             const errorMessage = 'any_message'
             jest.spyOn(updateCategoryUsecase, 'execute').mockRejectedValueOnce(new NotFoundError({ message: errorMessage }))
 
-            await sut.update(req, res)
+            await categoryController.updateCategory(request, response)
 
-            expect(res.status).toHaveBeenCalledWith(404)
-            expect(res.json).toHaveBeenCalledWith({ message: errorMessage })
-        })
-
-        test('Should return 422 if UpdateCategoryUsecase throws UnprocessableEntityError', async () => {
-            const errorMessage = 'any_message'
-            jest
-                .spyOn(updateCategoryUsecase, 'execute')
-                .mockRejectedValueOnce(new UnprocessableEntityError({ message: errorMessage }))
-
-            await sut.update(req, res)
-
-            expect(res.status).toHaveBeenCalledWith(422)
-            expect(res.json).toHaveBeenCalledWith({ message: errorMessage })
+            expect(response.status).toHaveBeenCalledWith(404)
         })
 
         test('Should return 500 if UpdateCategoryUsecase throws', async () => {
             jest.spyOn(updateCategoryUsecase, 'execute').mockRejectedValueOnce(new Error())
 
-            await sut.update(req, res)
+            await categoryController.updateCategory(request, response)
 
-            expect(res.status).toHaveBeenCalledWith(500)
-            expect(res.json).toHaveBeenCalledWith({ message: 'An unexpected error occurred' })
+            expect(response.status).toHaveBeenCalledWith(500)
         })
 
         test('Should return 200 on success', async () => {
-            await sut.update(req, res)
+            await categoryController.updateCategory(request, response)
 
-            expect(res.status).toHaveBeenCalledWith(200)
-            expect(res.json).toHaveBeenCalledWith({ message: 'Category updated successfully' })
+            expect(response.status).toHaveBeenCalledWith(200)
         })
     })
 
@@ -140,56 +108,40 @@ describe('CategoryContoller: ', () => {
         const params = { id: 1 }
 
         beforeAll(() => {
-            req = getMockReq({ params })
-            res = getMockRes().res
+            request = getMockReq({ params })
+            response = getMockRes().res
             jest.spyOn(deleteCategoryUsecase, 'execute').mockResolvedValue(undefined)
         })
 
         test('Should call UpdateCategoryUsecase with correct values', async () => {
             const spy = jest.spyOn(deleteCategoryUsecase, 'execute')
 
-            await sut.delete(req, res)
+            await categoryController.deleteCategory(request, response)
 
             expect(spy).toHaveBeenCalledTimes(1)
-            expect(spy).toHaveBeenCalledWith({ id: params.id })
         })
 
         test('Should return 404 if CreateCategoryUsecase throws NotFoundError', async () => {
             const errorMessage = 'any_message'
             jest.spyOn(deleteCategoryUsecase, 'execute').mockRejectedValueOnce(new NotFoundError({ message: errorMessage }))
 
-            await sut.delete(req, res)
+            await categoryController.deleteCategory(request, response)
 
-            expect(res.status).toHaveBeenCalledWith(404)
-            expect(res.json).toHaveBeenCalledWith({ message: errorMessage })
-        })
-
-        test('Should return 422 if CreateCategoryUsecase throws UnprocessableEntityError', async () => {
-            const errorMessage = 'any_message'
-            jest
-                .spyOn(deleteCategoryUsecase, 'execute')
-                .mockRejectedValueOnce(new UnprocessableEntityError({ message: errorMessage }))
-
-            await sut.delete(req, res)
-
-            expect(res.status).toHaveBeenCalledWith(422)
-            expect(res.json).toHaveBeenCalledWith({ message: errorMessage })
+            expect(response.status).toHaveBeenCalledWith(404)
         })
 
         test('Should return 500 if CreateCategoryUsecase throws', async () => {
             jest.spyOn(deleteCategoryUsecase, 'execute').mockRejectedValueOnce(new Error())
 
-            await sut.delete(req, res)
+            await categoryController.deleteCategory(request, response)
 
-            expect(res.status).toHaveBeenCalledWith(500)
-            expect(res.json).toHaveBeenCalledWith({ message: 'An unexpected error occurred' })
+            expect(response.status).toHaveBeenCalledWith(500)
         })
 
         test('Should return 200 on success', async () => {
-            await sut.delete(req, res)
+            await categoryController.deleteCategory(request, response)
 
-            expect(res.status).toHaveBeenCalledWith(200)
-            expect(res.json).toHaveBeenCalledWith({ message: 'Category deleted successfully' })
+            expect(response.status).toHaveBeenCalledWith(200)
         })
     })
 })

@@ -2,9 +2,10 @@ const { BadRequestError } = require('../../infrastructure/webserver/errors')
 const productJoiSchema = require('../validation/productJoiSchema')
 
 class UpdateProductUseCase {
-    constructor({ productRepository, categoryRepository }) {
+    constructor({ productRepository, categoryRepository, sqsProducer }) {
         this.productRepository = productRepository
         this.categoryRepository = categoryRepository
+        this.sqsProducer = sqsProducer
     }
 
     async execute(productID, product) {
@@ -19,6 +20,7 @@ class UpdateProductUseCase {
 
         if (validCategory.length) {
             await this.productRepository.update({ productID, title, description, price, category })
+            await this.sqsProducer.sendMessage(ownerID)
         }
         else throw new BadRequestError('Invalid Category')
     }

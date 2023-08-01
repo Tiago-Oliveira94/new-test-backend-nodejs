@@ -1,6 +1,7 @@
 const express = require('express');
 const dotenv = require('dotenv');
 dotenv.config();
+const { consumer } = require('./application/queue/sqsConsumer')
 const connectDb = require('./config/db');
 const routes = require('./infrastructure/webserver/routes');
 
@@ -12,6 +13,7 @@ const host = process.env.NODE_HOST || 'localhost'
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+consumer.start()
 
 app.get('/', (req, res) => {
   res.send('Hello World');
