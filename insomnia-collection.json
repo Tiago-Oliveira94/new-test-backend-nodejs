@@ -1,0 +1,274 @@
+{
+    "_type":"export",
+    "__export_format":4,
+    "__export_date":"2023-08-02T15:27:24.241Z",
+    "__export_source":"insomnia.desktop.app:v2023.4.0",
+    "resources":[
+       {
+          "_id":"req_9a422829c8bf4b1ab0126296448f6c86",
+          "parentId":"fld_fa2078d08f9546ef97393a3409076c98",
+          "modified":1690919064848,
+          "created":1690743198238,
+          "url":"http://localhost:9000/product/64c9607e02c7d64b51c2423d",
+          "name":"Delete Product",
+          "description":"",
+          "method":"DELETE",
+          "body":{
+             
+          },
+          "parameters":[
+             
+          ],
+          "headers":[
+             
+          ],
+          "authentication":{
+             
+          },
+          "metaSortKey":-1690743198238,
+          "isPrivate":false,
+          "settingStoreCookies":true,
+          "settingSendCookies":true,
+          "settingDisableRenderRequestBody":false,
+          "settingEncodeUrl":true,
+          "settingRebuildPath":true,
+          "settingFollowRedirects":"global",
+          "_type":"request"
+       },
+       {
+          "_id":"fld_fa2078d08f9546ef97393a3409076c98",
+          "parentId":"wrk_c184671bafe14a87ad9e82f4efc47d18",
+          "modified":1690731617980,
+          "created":1690731617980,
+          "name":"Product",
+          "description":"",
+          "environment":{
+             
+          },
+          "environmentPropertyOrder":null,
+          "metaSortKey":-1690731617980,
+          "_type":"request_group"
+       },
+       {
+          "_id":"wrk_c184671bafe14a87ad9e82f4efc47d18",
+          "parentId":null,
+          "modified":1690491718094,
+          "created":1690491718094,
+          "name":"Anota AI",
+          "description":"",
+          "scope":"collection",
+          "_type":"workspace"
+       },
+       {
+          "_id":"req_6c3399b4cc1846beb8615d54eb16fe6c",
+          "parentId":"fld_fa2078d08f9546ef97393a3409076c98",
+          "modified":1690985816290,
+          "created":1690741912251,
+          "url":"http://localhost:9000/product/64ca6519767b21b0c38ec034",
+          "name":"Update Product",
+          "description":"",
+          "method":"PUT",
+          "body":{
+             "mimeType":"application/json",
+             "text":"{\n\t\"title\": \"barrinha de chocolate\",\n\t\"price\": \"2.00\",\n\t\"description\": \"barrinha de chocolate\",\n\t\"ownerID\": \"1\",\n\t\"category\": \"64ca6419767b21b0c38ec028\"\n}"
+          },
+          "parameters":[
+             
+          ],
+          "headers":[
+             {
+                "name":"Content-Type",
+                "value":"application/json"
+             }
+          ],
+          "authentication":{
+             
+          },
+          "metaSortKey":-1690741912251,
+          "isPrivate":false,
+          "settingStoreCookies":true,
+          "settingSendCookies":true,
+          "settingDisableRenderRequestBody":false,
+          "settingEncodeUrl":true,
+          "settingRebuildPath":true,
+          "settingFollowRedirects":"global",
+          "_type":"request"
+       },
+       {
+          "_id":"req_a30da6308f074afeb94e5337a73d6f61",
+          "parentId":"fld_fa2078d08f9546ef97393a3409076c98",
+          "modified":1690985749689,
+          "created":1690661397296,
+          "url":"http://localhost:9000/product",
+          "name":"Create Product",
+          "description":"",
+          "method":"POST",
+          "body":{
+             "mimeType":"application/json",
+             "text":"{\n\t\"title\": \"banana\",\n\t\"ownerID\": \"1\",\n\t\"description\": \"cacho de banana\",\n\t\"price\": \"1.50\",\n\t\"category\": \"64ca6419767b21b0c38ec028\"\n}"
+          },
+          "parameters":[
+             
+          ],
+          "headers":[
+             {
+                "name":"Content-Type",
+                "value":"application/json"
+             }
+          ],
+          "authentication":{
+             
+          },
+          "metaSortKey":-1690661397296,
+          "isPrivate":false,
+          "settingStoreCookies":true,
+          "settingSendCookies":true,
+          "settingDisableRenderRequestBody":false,
+          "settingEncodeUrl":true,
+          "settingRebuildPath":true,
+          "settingFollowRedirects":"global",
+          "_type":"request"
+       },
+       {
+          "_id":"req_07c7fc83083746c2ba21271c4ae84e8b",
+          "parentId":"fld_c52fbf2553604065b99b468bb62f9a3d",
+          "modified":1690985901511,
+          "created":1690743996308,
+          "url":"http://localhost:9000/category/64ca6419767b21b0c38ec028",
+          "name":"Delete Category",
+          "description":"",
+          "method":"DELETE",
+          "body":{
+             
+          },
+          "parameters":[
+             
+          ],
+          "headers":[
+             
+          ],
+          "authentication":{
+             
+          },
+          "metaSortKey":-1690743996308,
+          "isPrivate":false,
+          "settingStoreCookies":true,
+          "settingSendCookies":true,
+          "settingDisableRenderRequestBody":false,
+          "settingEncodeUrl":true,
+          "settingRebuildPath":true,
+          "settingFollowRedirects":"global",
+          "_type":"request"
+       },
+       {
+          "_id":"fld_c52fbf2553604065b99b468bb62f9a3d",
+          "parentId":"wrk_c184671bafe14a87ad9e82f4efc47d18",
+          "modified":1690731602902,
+          "created":1690731602902,
+          "name":"Category",
+          "description":"",
+          "environment":{
+             
+          },
+          "environmentPropertyOrder":null,
+          "metaSortKey":-1690731602902,
+          "_type":"request_group"
+       },
+       {
+          "_id":"req_2f733b4e4442445fae1baa25b9a5d34e",
+          "parentId":"fld_c52fbf2553604065b99b468bb62f9a3d",
+          "modified":1690989940466,
+          "created":1690731564544,
+          "url":"http://localhost:9000/category/64ca6419767b21b0c38ec028",
+          "name":"Update Category",
+          "description":"",
+          "method":"PUT",
+          "body":{
+             "mimeType":"application/json",
+             "text":"{\n\t\"title\": \"cosmeticos\",\n\t\"description\": \"categoria de cosmeticos\",\n\t\"ownerID\": \"1\"\n}"
+          },
+          "parameters":[
+             
+          ],
+          "headers":[
+             {
+                "name":"Content-Type",
+                "value":"application/json"
+             }
+          ],
+          "authentication":{
+             
+          },
+          "metaSortKey":-1690731583723,
+          "isPrivate":false,
+          "settingStoreCookies":true,
+          "settingSendCookies":true,
+          "settingDisableRenderRequestBody":false,
+          "settingEncodeUrl":true,
+          "settingRebuildPath":true,
+          "settingFollowRedirects":"global",
+          "_type":"request"
+       },
+       {
+          "_id":"req_9fb21cd7239a472085b2604efccd9406",
+          "parentId":"fld_c52fbf2553604065b99b468bb62f9a3d",
+          "modified":1690985495849,
+          "created":1690650791874,
+          "url":"http://localhost:9000/category",
+          "name":"Create Category",
+          "description":"",
+          "method":"POST",
+          "body":{
+             "mimeType":"application/json",
+             "text":"{\n\t\"title\": \"alimentos\",\n\t\"ownerID\": \"1\",\n\t\"description\": \"categoria de alimentos\"\n}"
+          },
+          "parameters":[
+             
+          ],
+          "headers":[
+             {
+                "name":"Content-Type",
+                "value":"application/json"
+             }
+          ],
+          "authentication":{
+             
+          },
+          "metaSortKey":-1690731583673,
+          "isPrivate":false,
+          "settingStoreCookies":true,
+          "settingSendCookies":true,
+          "settingDisableRenderRequestBody":false,
+          "settingEncodeUrl":true,
+          "settingRebuildPath":true,
+          "settingFollowRedirects":"global",
+          "_type":"request"
+       },
+       {
+          "_id":"env_bdd391c277915fd1a8e623eb7c1235fe50a0c27c",
+          "parentId":"wrk_c184671bafe14a87ad9e82f4efc47d18",
+          "modified":1690491718095,
+          "created":1690491718095,
+          "name":"Base Environment",
+          "data":{
+             
+          },
+          "dataPropertyOrder":null,
+          "color":null,
+          "isPrivate":false,
+          "metaSortKey":1690491718095,
+          "_type":"environment"
+       },
+       {
+          "_id":"jar_bdd391c277915fd1a8e623eb7c1235fe50a0c27c",
+          "parentId":"wrk_c184671bafe14a87ad9e82f4efc47d18",
+          "modified":1690491718096,
+          "created":1690491718096,
+          "name":"Default Jar",
+          "cookies":[
+             
+          ],
+          "_type":"cookie_jar"
+       }
+    ]
+ }

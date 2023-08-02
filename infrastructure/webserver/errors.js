@@ -53,10 +53,22 @@ function GenericMongoError(description) {
 GenericMongoError.prototype = Object.create(Error.prototype)
 GenericMongoError.prototype.constructor = GenericMongoError
 
+function GenericQueueError(description) {
+    Error.call(this)
+    Error.captureStackTrace(this)
+    this.name = 'GENERIC_QUEUE_ERROR'
+    this.statusCode = 500
+    this.description = description
+    this.isOperational = true
+}
+GenericQueueError.prototype = Object.create(Error.prototype)
+GenericQueueError.prototype.constructor = GenericQueueError
+
 module.exports = {
     NotFoundError,
     AlreadyExistsError,
     CannotBeEmptyError,
     GenericMongoError,
-    BadRequestError
+    BadRequestError,
+    GenericQueueError
 }
